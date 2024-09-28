@@ -11,10 +11,11 @@ import { firebase } from "../firebase";
 import { useSettings } from "../settings";
 import { DataState } from "../types";
 import { Context } from "./context";
-import { Data } from "./types";
+import { calculateData } from "./data";
+import type { Data, Inputs } from "./types";
 
 export function DataProvider({ children }: { children: ReactNode }) {
-  const [data, setLocalData] = useState<DataState<Data | undefined>>({
+  const [data, setData] = useState<DataState<Data | undefined>>({
     state: "loading",
   });
   const { userId } = useSettings();
@@ -26,15 +27,14 @@ export function DataProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     onSnapshot(
       userDoc,
-      (snapshot) =>
-        setLocalData({ state: "ready", data: snapshot.data() as Data }),
-      (error) => setLocalData({ state: "error", error })
+      (snapshot) => setData({ state: "ready", data: snapshot.data() as Data }),
+      (error) => setData({ state: "error", error })
     );
   }, [userDoc]);
 
-  const setData = useCallback(
-    async (data: Data) => {
-      await setDoc(userDoc, data);
+  const setInputs = useCallback(
+    async (inputs: Inputs) => {
+      await setDoc(userDoc, { inputs, calculated: calculateData(inputs) });
     },
     [userDoc]
   );
@@ -48,7 +48,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <Context.Provider value={{ data: data.data, setData }}>
+    <Context.Provider value={{ data: data.data, setInputs }}>
       {children}
     </Context.Provider>
   );

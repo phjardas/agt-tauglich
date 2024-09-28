@@ -16,6 +16,7 @@
     "@mui/icons-material": "^6.1.1",
     "@mui/lab": "^6.0.0-beta.10",
     "@mui/material": "^6.1.1",
+    "date-fns": "^4.1.0",
     "firebase": "^10.13.2",
     "nanoid": "^5.0.7",
     "react": "^18.3.1",

@@ -1,13 +1,13 @@
 import { useContext } from "react";
 import { Context } from "./context";
-import type { Data, DataContext } from "./types";
+import type { Data, DataContext, Inputs } from "./types";
 
 export function useData(): Data | undefined {
   return useDataContext().data;
 }
 
-export function useSetData(): (data: Data) => Promise<void> {
-  return useDataContext().setData;
+export function useSetInputs(): (inputs: Inputs) => Promise<void> {
+  return useDataContext().setInputs;
 }
 
 function useDataContext(): DataContext {

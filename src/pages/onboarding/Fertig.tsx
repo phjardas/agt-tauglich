@@ -3,7 +3,7 @@ import { Box, Button, LinearProgress, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import ErrorAlert from "../../components/ErrorAlert";
 import LinkBehavior from "../../components/LinkBehavior";
-import { useSetData } from "../../data";
+import { useSetInputs } from "../../data";
 import { DataState } from "../../types";
 import { useOnboarding } from "./hooks";
 
@@ -29,7 +29,7 @@ export default function Fertig() {
           <Typography>Wir haben jetzt alle Informationen zusammen.</Typography>
           <Button
             component={LinkBehavior}
-            href="/status"
+            href="/"
             variant="contained"
             size="large"
             endIcon={<ArrowForward />}
@@ -44,11 +44,11 @@ export default function Fertig() {
 
 function useFinishOnboarding(): DataState<void> {
   const { onboarding } = useOnboarding();
-  const setData = useSetData();
+  const setInputs = useSetInputs();
   const [state, setState] = useState<DataState<void>>({ state: "loading" });
 
   useEffect(() => {
-    setData({
+    setInputs({
       geburtsdatum: onboarding.geburtsdatum!,
       g26: onboarding.g26!,
       unterweisung: onboarding.unterweisung!,
@@ -57,7 +57,7 @@ function useFinishOnboarding(): DataState<void> {
     })
       .then(() => setState({ state: "ready", data: undefined }))
       .catch((error) => setState({ state: "error", error }));
-  }, [onboarding, setData]);
+  }, [onboarding, setInputs]);
 
   return state;
 }

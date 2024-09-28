@@ -1,8 +1,15 @@
+import { Navigate } from "react-router";
+import Global from "../components/Global";
 import { useData } from "../data";
-import { useSettings } from "../settings";
 
 export default function Status() {
-  const settings = useSettings();
   const data = useData();
-  return <pre>{JSON.stringify({ settings, data }, null, 2)}</pre>;
+
+  return data ? (
+    <Global>
+      <pre>{JSON.stringify(data.calculated, null, 2)}</pre>
+    </Global>
+  ) : (
+    <Navigate to="/onboarding" replace />
+  );
 }

@@ -3,13 +3,11 @@ import { RouterProvider } from "react-router";
 import { createBrowserRouter } from "react-router-dom";
 import GlobalLoading from "../components/GlobalLoading";
 
-const Home = lazy(() => import("./Home"));
 const Status = lazy(() => import("./Status"));
 const Onboarding = lazy(() => import("./onboarding"));
 
 const router = createBrowserRouter([
-  { index: true, element: <Home /> },
-  { path: "status", element: <Status /> },
+  { index: true, element: <Status /> },
   { path: "onboarding", element: <Onboarding /> },
 ]);
 
