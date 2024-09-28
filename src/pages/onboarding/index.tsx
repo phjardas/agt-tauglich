@@ -1,14 +1,13 @@
-import { lazy, useState } from "react";
+import { useState } from "react";
 import Global from "../../components/Global";
 import { Context, type Onboarding } from "./context";
-
-const Willkommen = lazy(() => import("./Willkommen"));
-const Geburtsdatum = lazy(() => import("./Geburtsdatum"));
-const G26 = lazy(() => import("./G26"));
-const Unterweisung = lazy(() => import("./Unterweisung"));
-const Streckendurchgang = lazy(() => import("./Streckendurchgang"));
-const EinsatzUebung = lazy(() => import("./EinsatzUebung"));
-const Fertig = lazy(() => import("./Fertig"));
+import EinsatzUebung from "./EinsatzUebung";
+import Fertig from "./Fertig";
+import G26 from "./G26";
+import Geburtsdatum from "./Geburtsdatum";
+import Streckendurchgang from "./Streckendurchgang";
+import Unterweisung from "./Unterweisung";
+import Willkommen from "./Willkommen";
 
 const steps = [
   { element: <Willkommen /> },
