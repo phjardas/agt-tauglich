@@ -1,5 +1,5 @@
-import { useData } from "./data";
-import { useSettings } from "./settings";
+import { useData } from "../data";
+import { useSettings } from "../settings";
 
 export default function Status() {
   const settings = useSettings();
