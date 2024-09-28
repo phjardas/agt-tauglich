@@ -12,9 +12,7 @@ import {
 import { type ReactNode } from "react";
 
 const theme = createTheme({
-  cssVariables: {
-    colorSchemeSelector: "media",
-  },
+  cssVariables: true,
   palette: {
     primary,
     secondary,

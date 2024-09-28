@@ -13,11 +13,19 @@ export default function Global({ children }: { children: ReactNode }) {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        px: 4,
+        p: 2,
       }}
     >
-      <Paper sx={{ width: "25rem", maxWidth: "100%" }}>
-        <Box sx={{ p: 4 }}>
+      <Paper
+        sx={{
+          width: { xs: "100%", sm: "25rem" },
+          maxWidth: "100%",
+          minHeight: { xs: "100%", sm: "auto" },
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <Box sx={{ flex: 1, p: 4 }}>
           <Suspense fallback={<LinearProgress />}>
             <ErrorBoundary FallbackComponent={ErrorAlert}>
               {children}
