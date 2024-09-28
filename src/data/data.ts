@@ -26,6 +26,7 @@ export function calculateData(inputs: Inputs): CalculatedValues {
 
 function getG26GueltigYears(geburtsdatum: string): number {
   // FIXME G26.3 Gültigkeit abhängig vom Alter.
+  console.log("geburtsdatun:", geburtsdatum);
   return 3;
 }
 
