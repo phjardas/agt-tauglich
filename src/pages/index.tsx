@@ -1,15 +1,21 @@
 import { Suspense, lazy } from "react";
-import { useData } from "../data";
+import { RouterProvider } from "react-router";
+import { createBrowserRouter } from "react-router-dom";
 
-const Onboarding = lazy(() => import("./Onboarding"));
+const Home = lazy(() => import("./Home"));
 const Status = lazy(() => import("./Status"));
+const Onboarding = lazy(() => import("./Onboarding"));
+
+const router = createBrowserRouter([
+  { index: true, element: <Home /> },
+  { path: "status", element: <Status /> },
+  { path: "onboarding", element: <Onboarding /> },
+]);
 
 export default function Pages() {
-  const data = useData();
-
   return (
     <Suspense fallback={<div>Loading…</div>}>
-      {data ? <Status /> : <Onboarding />}
+      <RouterProvider router={router} />
     </Suspense>
   );
 }
