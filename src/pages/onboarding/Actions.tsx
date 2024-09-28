@@ -9,14 +9,12 @@ export default function Actions({ disabled }: { disabled?: boolean }) {
   return (
     <Box
       sx={{
-        display: "grid",
-        gridTemplateColumns: ["1fr", "1fr 1fr"],
+        display: "flex",
+        flexDirection: ["column", "row-reverse"],
+        justifyContent: "space-between",
         gap: 1,
       }}
     >
-      <Button color="inherit" startIcon={<ArrowBack />} onClick={previousStep}>
-        Zurück
-      </Button>
       <Button
         variant="contained"
         endIcon={<ArrowForward />}
@@ -24,6 +22,9 @@ export default function Actions({ disabled }: { disabled?: boolean }) {
         onClick={nextStep}
       >
         Weiter
+      </Button>
+      <Button color="inherit" startIcon={<ArrowBack />} onClick={previousStep}>
+        Zurück
       </Button>
     </Box>
   );
