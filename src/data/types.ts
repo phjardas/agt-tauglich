@@ -1,6 +1,12 @@
-export type Data = {};
+export type Data = {
+  geburtsdatum: string;
+  g26: string;
+  unterweisung: string;
+  streckendurchgang: string;
+  einsatzUebung: string;
+};
 
 export type DataContext = {
   data?: Data;
-  updateData: (updater: (data?: Data) => Data) => void;
+  setData: (data: Data) => Promise<void>;
 };

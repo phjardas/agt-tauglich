@@ -1,10 +1,11 @@
 import { Suspense, lazy } from "react";
 import { RouterProvider } from "react-router";
 import { createBrowserRouter } from "react-router-dom";
+import GlobalLoading from "../components/GlobalLoading";
 
 const Home = lazy(() => import("./Home"));
 const Status = lazy(() => import("./Status"));
-const Onboarding = lazy(() => import("./Onboarding"));
+const Onboarding = lazy(() => import("./onboarding"));
 
 const router = createBrowserRouter([
   { index: true, element: <Home /> },
@@ -14,7 +15,7 @@ const router = createBrowserRouter([
 
 export default function Pages() {
   return (
-    <Suspense fallback={<div>Loading…</div>}>
+    <Suspense fallback={<GlobalLoading />}>
       <RouterProvider router={router} />
     </Suspense>
   );

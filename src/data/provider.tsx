@@ -1,5 +1,12 @@
-import { doc, getFirestore, onSnapshot } from "firebase/firestore";
-import { useCallback, useEffect, useState, type ReactNode } from "react";
+import { doc, getFirestore, onSnapshot, setDoc } from "firebase/firestore";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
+import GlobalLoading from "../components/GlobalLoading";
 import { firebase } from "../firebase";
 import { useSettings } from "../settings";
 import { DataState } from "../types";
@@ -7,41 +14,41 @@ import { Context } from "./context";
 import { Data } from "./types";
 
 export function DataProvider({ children }: { children: ReactNode }) {
-  const [data, setData] = useState<DataState<Data | undefined>>({
+  const [data, setLocalData] = useState<DataState<Data | undefined>>({
     state: "loading",
   });
   const { userId } = useSettings();
+  const userDoc = useMemo(
+    () => doc(getFirestore(firebase), "users", userId),
+    [userId]
+  );
 
   useEffect(() => {
-    const userDoc = doc(getFirestore(firebase), "users", userId);
     onSnapshot(
       userDoc,
-      (snapshot) => setData({ state: "ready", data: snapshot.data() as Data }),
-      (error) => setData({ state: "error", error })
+      (snapshot) =>
+        setLocalData({ state: "ready", data: snapshot.data() as Data }),
+      (error) => setLocalData({ state: "error", error })
     );
-  }, [userId]);
+  }, [userDoc]);
 
-  const updateData = useCallback((updater: (data?: Data) => Data) => {
-    setData((prev) => {
-      if (prev.state !== "ready") {
-        throw new Error(`Data is not ready to be updated.`);
-      }
-
-      const next = updater(prev.data);
-      return { state: "ready", data: next };
-    });
-  }, []);
+  const setData = useCallback(
+    async (data: Data) => {
+      await setDoc(userDoc, data);
+    },
+    [userDoc]
+  );
 
   if (data.state === "loading") {
-    return <div>loading…</div>;
+    return <GlobalLoading />;
   }
 
   if (data.state === "error") {
-    return <div>Error: {data.error.message}</div>;
+    throw data.error;
   }
 
   return (
-    <Context.Provider value={{ data: data.data, updateData }}>
+    <Context.Provider value={{ data: data.data, setData }}>
       {children}
     </Context.Provider>
   );

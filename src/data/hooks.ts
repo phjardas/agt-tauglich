@@ -6,8 +6,8 @@ export function useData(): Data | undefined {
   return useDataContext().data;
 }
 
-export function useUpdateData(): (updater: (data?: Data) => Data) => void {
-  return useDataContext().updateData;
+export function useSetData(): (data: Data) => Promise<void> {
+  return useDataContext().setData;
 }
 
 function useDataContext(): DataContext {
