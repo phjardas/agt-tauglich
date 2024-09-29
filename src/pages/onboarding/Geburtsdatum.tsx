@@ -1,5 +1,6 @@
-import { Alert, Box, TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import Actions from "./Actions";
+import DatenschutzInfo from "./DatenschutzInfo";
 import { useOnboarding } from "./hooks";
 
 export default function Geburtsdatum() {
@@ -31,10 +32,7 @@ export default function Geburtsdatum() {
           }))
         }
       />
-      <Alert severity="info">
-        Deine personenbezogenen Daten verbleiben auf deinem Gerät und werden
-        nicht an uns übertragen.
-      </Alert>
+      <DatenschutzInfo />
       <Actions disabled={!geburtsdatum?.trim()?.length} />
     </Box>
   );

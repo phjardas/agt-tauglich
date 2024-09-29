@@ -1,5 +1,6 @@
-import { Alert, Box, TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import Actions from "./Actions";
+import DatenschutzInfo from "./DatenschutzInfo";
 import { useOnboarding } from "./hooks";
 
 export default function G26() {
@@ -27,10 +28,7 @@ export default function G26() {
         }
         required
       />
-      <Alert severity="info">
-        Deine personenbezogenen Daten verbleiben auf deinem Gerät und werden
-        nicht an uns übertragen.
-      </Alert>
+      <DatenschutzInfo />
       <Actions disabled={!g26?.trim().length} />
     </Box>
   );

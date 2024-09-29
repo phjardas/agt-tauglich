@@ -1,5 +1,6 @@
 import { ArrowForward } from "@mui/icons-material";
-import { Alert, Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
+import DatenschutzInfo from "./DatenschutzInfo";
 import { useNextStep } from "./hooks";
 
 export default function Willkommen() {
@@ -14,10 +15,7 @@ export default function Willkommen() {
         Mit dieser App kannst du deine Tauglichkeit als Atemschutzgeräteträger
         der Feuerwehr nach der FwDV 7 selbst überwachen.
       </Typography>
-      <Alert severity="info">
-        Deine personenbezogenen Daten verbleiben auf deinem Gerät und werden
-        nicht an uns übertragen.
-      </Alert>
+      <DatenschutzInfo />
       <Button
         variant="contained"
         size="large"
