@@ -1,4 +1,4 @@
-import { doc, getFirestore, onSnapshot, setDoc } from "firebase/firestore";
+import { doc, onSnapshot, setDoc } from "firebase/firestore";
 import {
   useCallback,
   useEffect,
@@ -7,7 +7,7 @@ import {
   type ReactNode,
 } from "react";
 import GlobalLoading from "../components/GlobalLoading";
-import { firebase } from "../firebase";
+import { firestore } from "../firebase";
 import { useSettings } from "../settings";
 import { DataState } from "../types";
 import { Context } from "./context";
@@ -19,10 +19,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
     state: "loading",
   });
   const { userId } = useSettings();
-  const userDoc = useMemo(
-    () => doc(getFirestore(firebase), "users", userId),
-    [userId]
-  );
+  const userDoc = useMemo(() => doc(firestore, "users", userId), [userId]);
 
   useEffect(() => {
     onSnapshot(

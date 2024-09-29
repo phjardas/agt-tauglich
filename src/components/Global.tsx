@@ -20,9 +20,11 @@ export default function Global({ children }: { children: ReactNode }) {
         sx={{
           width: { xs: "100%", sm: "25rem" },
           maxWidth: "100%",
-          minHeight: { xs: "100%", sm: "auto" },
+          height: { xs: "100%", sm: "auto" },
+          maxHeight: { xs: "100%", sm: "auto" },
           display: "flex",
           flexDirection: "column",
+          overflowY: "auto",
         }}
       >
         <Box sx={{ flex: 1, p: 4 }}>

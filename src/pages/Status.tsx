@@ -1,6 +1,7 @@
 import { Edit, HighlightOff, ThumbUp } from "@mui/icons-material";
 import {
   Box,
+  Chip,
   IconButton,
   List,
   ListItem,
@@ -9,7 +10,7 @@ import {
   type SvgIconProps,
   Typography,
 } from "@mui/material";
-import { format } from "date-fns";
+import { differenceInDays, differenceInMonths, format } from "date-fns";
 import { type ReactNode, useState } from "react";
 import { Navigate } from "react-router";
 import Global from "../components/Global";
@@ -31,6 +32,25 @@ function Tauglichkeit({ data: { calculated } }: { data: Data }) {
   const tauglich = calculated.tauglichBis
     ? calculated.tauglichBis >= now
     : false;
+
+  const tauglichkeiten = getSortedTauglichkeiten([
+    { inputField: "g26", label: "G26.3", gueltigBis: calculated.g26GueltigBis },
+    {
+      inputField: "streckendurchgang",
+      label: "Streckendurchgang",
+      gueltigBis: calculated.streckendurchgangGueltigBis,
+    },
+    {
+      inputField: "unterweisung",
+      label: "Unterweisung",
+      gueltigBis: calculated.unterweisungGueltigBis,
+    },
+    {
+      inputField: "einsatzUebung",
+      label: "Einsatz oder Übung",
+      gueltigBis: calculated.einsatzUebungGueltigBis,
+    },
+  ]);
 
   return (
     <Box
@@ -61,34 +81,31 @@ function Tauglichkeit({ data: { calculated } }: { data: Data }) {
           </Typography>
         </Box>
         <List dense sx={{ py: 0 }}>
-          <TauglichkeitListItem
-            inputField="g26"
-            label="G26.3"
-            now={now}
-            gueltigBis={calculated.g26GueltigBis}
-          />
-          <TauglichkeitListItem
-            inputField="streckendurchgang"
-            label="Streckendurchgang"
-            now={now}
-            gueltigBis={calculated.streckendurchgangGueltigBis}
-          />
-          <TauglichkeitListItem
-            inputField="unterweisung"
-            label="Unterweisung"
-            now={now}
-            gueltigBis={calculated.unterweisungGueltigBis}
-          />
-          <TauglichkeitListItem
-            inputField="einsatzUebung"
-            label="Einsatz oder Übung"
-            now={now}
-            gueltigBis={calculated.einsatzUebungGueltigBis}
-          />
+          {tauglichkeiten.map((t) => (
+            <TauglichkeitListItem key={t.inputField} now={now} {...t} />
+          ))}
         </List>
       </Global>
     </Box>
   );
+}
+
+function getSortedTauglichkeiten(
+  tauglichkeiten: ReadonlyArray<{
+    inputField: keyof Inputs;
+    label: ReactNode;
+    gueltigBis?: string;
+  }>
+): ReadonlyArray<{
+  inputField: keyof Inputs;
+  label: ReactNode;
+  gueltigBis?: string;
+}> {
+  return tauglichkeiten.toSorted((a, b) => {
+    if (!a.gueltigBis) return 1;
+    if (!b.gueltigBis) return -1;
+    return a.gueltigBis.localeCompare(b.gueltigBis);
+  });
 }
 
 function TauglichkeitIcon({
@@ -125,14 +142,70 @@ function TauglichkeitListItem({
         primary={label}
         secondary={
           gueltigBis ? (
-            <>gültig bis {new Date(gueltigBis).toLocaleDateString()}</>
+            <>
+              <span>
+                gültig bis {new Date(gueltigBis).toLocaleDateString()}
+              </span>
+              {gueltigBis && (
+                <TauglichkeitWarnung gueltigBis={gueltigBis} now={now} />
+              )}
+            </>
           ) : (
             "nicht vorhanden"
           )
         }
+        secondaryTypographyProps={{
+          component: "div",
+          sx: {
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+          },
+        }}
       />
     </ListItem>
   );
+}
+
+function TauglichkeitWarnung({
+  gueltigBis,
+  now,
+}: {
+  gueltigBis: string;
+  now: string;
+}) {
+  if (gueltigBis < now) {
+    return (
+      <Chip component="span" label="abgelaufen" color="error" size="small" />
+    );
+  }
+
+  const months = differenceInMonths(gueltigBis, now);
+  const days = differenceInDays(gueltigBis, now);
+
+  if (months < 1) {
+    return (
+      <Chip
+        component="span"
+        label={`noch ${days} Tag${days > 1 ? "e" : ""}`}
+        color="error"
+        size="small"
+      />
+    );
+  }
+
+  if (months < 4) {
+    return (
+      <Chip
+        component="span"
+        label={`noch ${months} Monat${months > 1 ? "e" : ""}`}
+        color="info"
+        size="small"
+      />
+    );
+  }
+
+  return <Chip component="span" label={`noch ${months} Monate`} size="small" />;
 }
 
 function EditInputButton({

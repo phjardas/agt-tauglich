@@ -20,6 +20,13 @@ const theme = createTheme({
       default: "#f5f5f5",
     },
   },
+  components: {
+    MuiLink: {
+      defaultProps: {
+        underline: "hover",
+      },
+    },
+  },
 });
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {

@@ -21,10 +21,7 @@ export default function GlobalLoading() {
         }}
       >
         <Box sx={{ px: 4, pt: 3, pb: 2 }}>
-          <Box
-            component={Logo}
-            sx={{ width: "6rem", color: "secondary.main" }}
-          />
+          <Box component={Logo} sx={{ width: "6rem", color: "primary.main" }} />
         </Box>
         <LinearProgress sx={{ width: "100%" }} />
       </Paper>
