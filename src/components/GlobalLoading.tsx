@@ -1,4 +1,5 @@
-import { Box, LinearProgress, Paper } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
+import Delay from "./Delay";
 import Logo from "./Logo";
 
 export default function GlobalLoading() {
@@ -12,19 +13,15 @@ export default function GlobalLoading() {
         alignItems: "center",
       }}
     >
-      <Paper
-        sx={{
-          minWidth: "10rem",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Box sx={{ px: 4, pt: 3, pb: 2 }}>
-          <Box component={Logo} sx={{ width: "6rem", color: "primary.main" }} />
-        </Box>
-        <LinearProgress sx={{ width: "100%" }} />
-      </Paper>
+      <Box sx={{ position: "relative", width: "8rem", height: "8rem", p: 0.5 }}>
+        <Logo />
+        <Delay ms={300}>
+          <CircularProgress
+            size="100%"
+            sx={{ position: "absolute", inset: 0 }}
+          />
+        </Delay>
+      </Box>
     </Box>
   );
 }
