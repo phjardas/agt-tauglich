@@ -1,5 +1,6 @@
 import { Edit, HighlightOff, ThumbUp } from "@mui/icons-material";
 import {
+  Alert,
   Box,
   Chip,
   IconButton,
@@ -61,30 +62,36 @@ function Tauglichkeit({ data: { calculated } }: { data: Data }) {
       }}
     >
       <Global>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            textAlign: "center",
-            color: tauglich ? "success.main" : "error.main",
-            gap: 2,
-            mb: 4,
-          }}
-        >
-          <TauglichkeitIcon
-            tauglich={tauglich}
-            sx={{ width: "100%", maxWidth: "6rem", height: "auto" }}
-          />
-          <Typography variant="h4">
-            {tauglich ? "Du bist tauglich" : "Du bist nicht tauglich"}
-          </Typography>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              textAlign: "center",
+              color: tauglich ? "success.main" : "error.main",
+              gap: 2,
+            }}
+          >
+            <TauglichkeitIcon
+              tauglich={tauglich}
+              sx={{ width: "100%", maxWidth: "6rem", height: "auto" }}
+            />
+            <Typography variant="h4">
+              {tauglich ? "Du bist tauglich" : "Du bist nicht tauglich"}
+            </Typography>
+          </Box>
+          <List dense disablePadding>
+            {tauglichkeiten.map((t) => (
+              <TauglichkeitListItem key={t.inputField} now={now} {...t} />
+            ))}
+          </List>
+          <Alert severity="info">
+            In Zukunft kommt hier noch eine Funktion, die automatisch
+            Benachrichtigungen verschickt, wenn eine Tauglichkeits-Voraussetzung
+            abzulaufen droht.
+          </Alert>
         </Box>
-        <List dense sx={{ py: 0 }}>
-          {tauglichkeiten.map((t) => (
-            <TauglichkeitListItem key={t.inputField} now={now} {...t} />
-          ))}
-        </List>
       </Global>
     </Box>
   );
