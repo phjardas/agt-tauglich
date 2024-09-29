@@ -1,5 +1,9 @@
 export type Settings = {
-  userId: string;
+  users: ReadonlyArray<User>;
+};
+
+export type User = {
+  id: string;
 };
 
 export type SettingsContext = {

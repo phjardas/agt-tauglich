@@ -3,7 +3,7 @@ import { Box, Button, LinearProgress, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import ErrorAlert from "../../components/ErrorAlert";
 import LinkBehavior from "../../components/LinkBehavior";
-import { useSetInputs } from "../../data";
+import { useCreateUser } from "../../data";
 import { DataState } from "../../types";
 import { useOnboarding } from "./hooks";
 
@@ -29,7 +29,7 @@ export default function Fertig() {
           <Typography>Wir haben jetzt alle Informationen zusammen.</Typography>
           <Button
             component={LinkBehavior}
-            href="/"
+            href={`/${state.data}`}
             variant="contained"
             size="large"
             endIcon={<ArrowForward />}
@@ -42,22 +42,22 @@ export default function Fertig() {
   );
 }
 
-function useFinishOnboarding(): DataState<void> {
+function useFinishOnboarding(): DataState<string> {
   const { onboarding } = useOnboarding();
-  const setInputs = useSetInputs();
-  const [state, setState] = useState<DataState<void>>({ state: "loading" });
+  const createUser = useCreateUser();
+  const [state, setState] = useState<DataState<string>>({ state: "loading" });
 
   useEffect(() => {
-    setInputs({
+    createUser({
       geburtsdatum: onboarding.geburtsdatum!,
       g26: onboarding.g26!,
       unterweisung: onboarding.unterweisung!,
       streckendurchgang: onboarding.streckendurchgang!,
       einsatzUebung: onboarding.einsatzUebung!,
     })
-      .then(() => setState({ state: "ready", data: undefined }))
+      .then((userId) => setState({ state: "ready", data: userId }))
       .catch((error) => setState({ state: "error", error }));
-  }, [onboarding, setInputs]);
+  }, [onboarding, createUser]);
 
   return state;
 }

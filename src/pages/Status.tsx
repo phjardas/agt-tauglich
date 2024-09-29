@@ -13,22 +13,38 @@ import {
 } from "@mui/material";
 import { differenceInDays, differenceInMonths, format } from "date-fns";
 import { type ReactNode, useState } from "react";
-import { Navigate } from "react-router";
+import { useParams } from "react-router";
 import Global from "../components/Global";
+import GlobalLoading from "../components/GlobalLoading";
 import InputDialog from "../components/InputDialog";
 import { type Data, Inputs, useData } from "../data";
 
 export default function Status() {
-  const data = useData();
+  const { userId = "" } = useParams<{ userId: string }>();
+  const data = useData(userId);
 
-  return data ? (
-    <Tauglichkeit data={data} />
-  ) : (
-    <Navigate to="/onboarding" replace />
-  );
+  if (data.state === "loading") {
+    return <GlobalLoading />;
+  }
+
+  if (data.state === "error") {
+    throw data.error;
+  }
+
+  if (!data.data) {
+    throw new Error("Benutzer:in nicht gefunden.");
+  }
+
+  return <Tauglichkeit userId={userId} data={data.data} />;
 }
 
-function Tauglichkeit({ data: { calculated } }: { data: Data }) {
+function Tauglichkeit({
+  userId,
+  data: { inputs, calculated },
+}: {
+  userId: string;
+  data: Data;
+}) {
   const now = format(new Date(), "yyyy-MM-dd");
   const tauglich = calculated.tauglichBis
     ? calculated.tauglichBis >= now
@@ -83,7 +99,13 @@ function Tauglichkeit({ data: { calculated } }: { data: Data }) {
           </Box>
           <List dense disablePadding>
             {tauglichkeiten.map((t) => (
-              <TauglichkeitListItem key={t.inputField} now={now} {...t} />
+              <TauglichkeitListItem
+                key={t.inputField}
+                userId={userId}
+                inputs={inputs}
+                now={now}
+                {...t}
+              />
             ))}
           </List>
           <Alert severity="info">
@@ -123,11 +145,15 @@ function TauglichkeitIcon({
 }
 
 function TauglichkeitListItem({
+  userId,
+  inputs,
   inputField,
   gueltigBis,
   now,
   label,
 }: {
+  userId: string;
+  inputs: Inputs;
   inputField: keyof Inputs;
   gueltigBis?: string;
   now: string;
@@ -137,7 +163,14 @@ function TauglichkeitListItem({
 
   return (
     <ListItem
-      secondaryAction={<EditInputButton label={label} field={inputField} />}
+      secondaryAction={
+        <EditInputButton
+          userId={userId}
+          inputs={inputs}
+          label={label}
+          field={inputField}
+        />
+      }
     >
       <ListItemIcon>
         <TauglichkeitIcon
@@ -216,9 +249,13 @@ function TauglichkeitWarnung({
 }
 
 function EditInputButton({
+  userId,
+  inputs,
   label,
   field,
 }: {
+  userId: string;
+  inputs: Inputs;
   label: ReactNode;
   field: keyof Inputs;
 }) {
@@ -231,6 +268,8 @@ function EditInputButton({
       </IconButton>
       {open && (
         <InputDialog
+          userId={userId}
+          inputs={inputs}
           label={label}
           field={field}
           open={open}

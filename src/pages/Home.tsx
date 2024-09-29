@@ -1,7 +1,13 @@
 import { Navigate } from "react-router";
-import { useData } from "../data";
+import { useSettings } from "../settings";
 
 export default function Home() {
-  const data = useData();
-  return <Navigate to={data ? "/status" : "/onboarding"} />;
+  const settings = useSettings();
+  console.log("settings:", settings);
+
+  return (
+    <Navigate
+      to={settings.users.length ? `${settings.users[0].id}` : "/onboarding"}
+    />
+  );
 }
