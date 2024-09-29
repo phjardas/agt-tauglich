@@ -9,37 +9,35 @@ import {
   TextField,
 } from "@mui/material";
 import { useCallback, useState, type ReactNode } from "react";
-import { setInputs, type Inputs } from "../data";
+import { type Inputs, type User } from "../model";
 
 export default function InputDialog({
-  userId,
-  inputs,
+  user,
   label,
   field,
   open,
   onClose,
 }: {
-  userId: string;
-  inputs: Inputs;
+  user: User;
   label: ReactNode;
   field: keyof Inputs;
   open: boolean;
   onClose: () => void;
 }) {
-  const [value, setValue] = useState(inputs[field]);
+  const [value, setValue] = useState(user.data!.inputs[field]);
   const [loading, setLoading] = useState(false);
 
   const save = useCallback(async () => {
     setLoading(true);
 
     try {
-      await setInputs(userId, { ...inputs, [field]: value });
+      await user.setInputs({ ...user.data!.inputs, [field]: value });
       onClose();
     } catch (error) {
       console.error("Error:", error);
       setLoading(false);
     }
-  }, [userId, inputs, field, onClose, value]);
+  }, [user, field, onClose, value]);
 
   return (
     <Dialog maxWidth="xs" fullWidth open={open} onClose={onClose}>

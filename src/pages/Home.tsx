@@ -1,13 +1,12 @@
 import { Navigate } from "react-router";
-import { useSettings } from "../settings";
+import { useModel } from "../application";
 
 export default function Home() {
-  const settings = useSettings();
-  console.log("settings:", settings);
+  const model = useModel();
 
   return (
     <Navigate
-      to={settings.users.length ? `${settings.users[0].id}` : "/onboarding"}
+      to={model.users.length ? `${model.users[0].id}` : "/onboarding"}
     />
   );
 }

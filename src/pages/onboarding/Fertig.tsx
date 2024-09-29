@@ -1,10 +1,10 @@
 import { ArrowForward } from "@mui/icons-material";
 import { Box, Button, LinearProgress, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useModel, type DataState } from "../../application";
 import ErrorAlert from "../../components/ErrorAlert";
 import LinkBehavior from "../../components/LinkBehavior";
-import { useCreateUser } from "../../data";
-import { DataState } from "../../types";
+import { type User } from "../../model";
 import { useOnboarding } from "./hooks";
 
 export default function Fertig() {
@@ -29,7 +29,7 @@ export default function Fertig() {
           <Typography>Wir haben jetzt alle Informationen zusammen.</Typography>
           <Button
             component={LinkBehavior}
-            href={`/${state.data}`}
+            href={`/${state.data.id}`}
             variant="contained"
             size="large"
             endIcon={<ArrowForward />}
@@ -42,22 +42,23 @@ export default function Fertig() {
   );
 }
 
-function useFinishOnboarding(): DataState<string> {
+function useFinishOnboarding(): DataState<User> {
   const { onboarding } = useOnboarding();
-  const createUser = useCreateUser();
-  const [state, setState] = useState<DataState<string>>({ state: "loading" });
+  const model = useModel();
+  const [state, setState] = useState<DataState<User>>({ state: "loading" });
 
   useEffect(() => {
-    createUser({
-      geburtsdatum: onboarding.geburtsdatum!,
-      g26: onboarding.g26!,
-      unterweisung: onboarding.unterweisung!,
-      streckendurchgang: onboarding.streckendurchgang!,
-      einsatzUebung: onboarding.einsatzUebung!,
-    })
-      .then((userId) => setState({ state: "ready", data: userId }))
+    model
+      .createUser({
+        geburtsdatum: onboarding.geburtsdatum!,
+        g26: onboarding.g26!,
+        unterweisung: onboarding.unterweisung!,
+        streckendurchgang: onboarding.streckendurchgang!,
+        einsatzUebung: onboarding.einsatzUebung!,
+      })
+      .then((user) => setState({ state: "ready", data: user }))
       .catch((error) => setState({ state: "error", error }));
-  }, [onboarding, createUser]);
+  }, [model, onboarding]);
 
   return state;
 }

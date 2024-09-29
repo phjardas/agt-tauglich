@@ -1,3 +1,16 @@
+export type Settings = {
+  readonly deviceId: string;
+  readonly users: ReadonlyArray<User>;
+};
+
+export type User = {
+  readonly id: string;
+  readonly data: UserData | undefined;
+  subscribe: () => void;
+  unsubscribe: () => void;
+  setInputs: (inputs: Inputs) => Promise<void>;
+};
+
 export type Inputs = {
   geburtsdatum: string;
   g26: string;
@@ -14,12 +27,7 @@ export type CalculatedValues = {
   tauglichBis?: string;
 };
 
-export type Data = {
+export type UserData = {
   inputs: Inputs;
   calculated: CalculatedValues;
-};
-
-export type DataContext = {
-  data?: Data;
-  setInputs: (inputs: Inputs) => Promise<void>;
 };
