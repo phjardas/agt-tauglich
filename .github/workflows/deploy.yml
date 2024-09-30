@@ -43,7 +43,7 @@ jobs:
         run: npx firebase use ${{ vars.FIREBASE_PROJECT }}
 
       - name: Configure environmemt
-        run: echo 'APP_URL=${{ vars.APP_URL }}' >> .env
+        run: echo 'APP_URL=${{ vars.APP_URL }}' >> packages/functions/.env
 
       - name: Deploy
         run: npx firebase deploy
