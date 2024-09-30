@@ -1,5 +1,12 @@
 import type { UserData, UserRepository } from "@agt-tauglich/model";
-import { doc, onSnapshot, setDoc, type Firestore } from "firebase/firestore";
+import {
+  doc,
+  onSnapshot,
+  serverTimestamp,
+  setDoc,
+  type Firestore,
+  type Timestamp,
+} from "firebase/firestore";
 
 export class FirestoreUserRepository implements UserRepository {
   readonly #firestore: Firestore;
@@ -15,14 +22,31 @@ export class FirestoreUserRepository implements UserRepository {
   ): () => void {
     return onSnapshot(
       this.#userDoc(userId),
-      (snapshot) =>
-        onData(snapshot.exists() ? (snapshot.data() as UserData) : undefined),
+      (snapshot) => {
+        if (snapshot.exists()) {
+          const { updatedAt, ...data } = snapshot.data({
+            serverTimestamps: "estimate",
+          }) as Omit<UserData, "updatedAt"> & { updatedAt?: Timestamp };
+
+          onData({
+            ...data,
+            updatedAt: updatedAt
+              ? new Date(updatedAt.seconds * 1000)
+              : undefined,
+          });
+        } else {
+          onData(undefined);
+        }
+      },
       onError
     );
   }
 
-  async setUserData(userId: string, inputs: UserData): Promise<void> {
-    await setDoc(this.#userDoc(userId), inputs);
+  async setUserData(userId: string, data: UserData): Promise<void> {
+    await setDoc(this.#userDoc(userId), {
+      ...data,
+      updatedAt: serverTimestamp(),
+    });
   }
 
   #userDoc(userId: string) {

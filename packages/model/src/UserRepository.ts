@@ -7,5 +7,5 @@ export interface UserRepository {
     onError: (error: Error) => void
   ): () => void;
 
-  setUserData(userId: string, inputs: UserData): Promise<void>;
+  setUserData(userId: string, data: UserData): Promise<void>;
 }

@@ -6,24 +6,60 @@ import {
   ThemeProvider as MuiThemeProvider,
 } from "@mui/material";
 import {
+  red as error,
   deepPurple as primary,
   deepOrange as secondary,
+  green as success,
 } from "@mui/material/colors";
 import { type ReactNode } from "react";
 
 const theme = createTheme({
-  cssVariables: true,
-  palette: {
-    primary,
-    secondary,
-    background: {
-      default: "#f5f5f5",
+  cssVariables: {
+    colorSchemeSelector: "media",
+  },
+  colorSchemes: {
+    light: {
+      palette: {
+        primary,
+        secondary,
+        error,
+        success,
+        background: {
+          default: "#f5f5f5",
+        },
+      },
+    },
+    dark: {
+      palette: {
+        primary: { main: primary[300] },
+        secondary: { main: secondary[300] },
+        error: { main: error[300] },
+        success: { main: success[300] },
+        background: {
+          default: "#000000",
+        },
+      },
     },
   },
   components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: "none",
+          fontWeight: 500,
+          fontSize: "1em",
+        },
+      },
+    },
     MuiLink: {
       defaultProps: {
         underline: "hover",
+      },
+    },
+    MuiTextField: {
+      defaultProps: {
+        variant: "filled",
+        fullWidth: true,
       },
     },
   },

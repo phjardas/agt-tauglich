@@ -1,7 +1,7 @@
 import { type User } from "@agt-tauglich/model";
 import { ArrowForward } from "@mui/icons-material";
 import { Box, Button, LinearProgress, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useApplication, type DataState } from "../../application";
 import ErrorAlert from "../../components/ErrorAlert";
 import LinkBehavior from "../../components/LinkBehavior";
@@ -43,11 +43,15 @@ export default function Fertig() {
 }
 
 function useFinishOnboarding(): DataState<User> {
+  const working = useRef(false);
   const { onboarding } = useOnboarding();
   const application = useApplication();
   const [state, setState] = useState<DataState<User>>({ state: "loading" });
 
   useEffect(() => {
+    if (working.current) return;
+    working.current = true;
+
     application
       .createUser({
         geburtsdatum: onboarding.geburtsdatum!,

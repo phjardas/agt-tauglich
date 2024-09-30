@@ -6,7 +6,6 @@ import {
   Link,
   Typography,
 } from "@mui/material";
-import LinkBehavior from "../components/LinkBehavior";
 
 export default function Impressum() {
   return (
@@ -20,9 +19,7 @@ export default function Impressum() {
           }}
         >
           <Typography variant="h3">Impressum</Typography>
-          <Link component={LinkBehavior} href="/">
-            zurück
-          </Link>
+          <Link onClick={() => history.back()}>zurück</Link>
         </Box>
         <Card>
           <CardContent>

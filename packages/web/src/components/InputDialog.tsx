@@ -51,7 +51,6 @@ export default function InputDialog({
             value={value}
             onChange={(e) => setValue(e.target.value)}
             required
-            fullWidth
           />
         </Box>
       </DialogContent>

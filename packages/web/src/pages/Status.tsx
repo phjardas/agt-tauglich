@@ -75,46 +75,38 @@ function Tauglichkeit({
   ]);
 
   return (
-    <Box
-      sx={{
-        bgcolor: tauglich ? "success.dark" : "error.dark",
-        color: "white",
-        minHeight: "100vh",
-      }}
-    >
-      <Global>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              textAlign: "center",
-              color: tauglich ? "success.main" : "error.main",
-              gap: 2,
-            }}
-          >
-            <TauglichkeitIcon
-              tauglich={tauglich}
-              sx={{ width: "100%", maxWidth: "6rem", height: "auto" }}
-            />
-            <Typography variant="h4">
-              {tauglich ? "Du bist tauglich" : "Du bist nicht tauglich"}
-            </Typography>
-          </Box>
-          <List dense disablePadding>
-            {tauglichkeiten.map((t) => (
-              <TauglichkeitListItem
-                key={t.inputField}
-                user={user}
-                now={now}
-                {...t}
-              />
-            ))}
-          </List>
+    <Global>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
+            color: tauglich ? "success.main" : "error.main",
+            gap: 2,
+          }}
+        >
+          <TauglichkeitIcon
+            tauglich={tauglich}
+            sx={{ width: "100%", maxWidth: "6rem", height: "auto" }}
+          />
+          <Typography variant="h4">
+            {tauglich ? "Du bist tauglich" : "Du bist nicht tauglich"}
+          </Typography>
         </Box>
-      </Global>
-    </Box>
+        <List dense disablePadding>
+          {tauglichkeiten.map((t) => (
+            <TauglichkeitListItem
+              key={t.inputField}
+              user={user}
+              now={now}
+              {...t}
+            />
+          ))}
+        </List>
+      </Box>
+    </Global>
   );
 }
 

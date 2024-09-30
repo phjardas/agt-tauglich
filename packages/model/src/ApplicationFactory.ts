@@ -23,6 +23,7 @@ export class ApplicationFactory {
     const settings = await this.#loadSettings();
     return new Application({
       deviceId: settings.deviceId,
+      users: settings.users,
       userRepository: this.#userRepository,
       settingsRepository: this.#settingsRepository,
     });
