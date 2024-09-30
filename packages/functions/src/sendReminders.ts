@@ -70,6 +70,7 @@ async function sendNotificationToDevice(
     notification: {
       title: "Deine AGT-Tauglichkeit läuft bald ab!",
       body: `In ${days} Tagen ist es soweit. Bitte vereinbare rechtzeitig einen Termin zum Erhalt deiner Tauglichkeit.`,
+      imageUrl: `${appUrlParam.value}/logo-96.png`,
     },
     webpush: {
       fcmOptions: {
