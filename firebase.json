@@ -11,6 +11,7 @@
   "functions": [
     {
       "source": "packages/functions",
+      "runtime": "nodejs22",
       "codebase": "default",
       "ignore": ["node_modules", "src", "*.log", "*.local"]
     }
