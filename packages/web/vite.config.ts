@@ -10,7 +10,7 @@ export default defineConfig({
   base: "/",
   build: {
     rollupOptions: {
-      input: ["index.html", "src/firebase-messaging-sw.ts"],
+      input: ["index.html", "firebase-messaging-sw.js"],
       output: {
         entryFileNames: "[name].js",
       },
