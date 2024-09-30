@@ -42,7 +42,8 @@ jobs:
       - name: Select project
         run: npx firebase use ${{ vars.FIREBASE_PROJECT }}
 
+      - name: Configure environmemt
+        run: echo 'APP_URL=${{ vars.APP_URL }}' >> .env
+
       - name: Deploy
         run: npx firebase deploy
-        env:
-          APP_URL: ${{ vars.APP_URL }}
