@@ -58,7 +58,13 @@ function InactiveUserSubscription({ user }: { user: User }) {
     case "denied":
       return (
         <Alert severity="warning" icon={<NotificationsNone />}>
-          Benachrichtigungen sind nicht aktiv.
+          <span>Benachrichtigungen sind nicht aktiv.</span>
+          {messaging.error && (
+            <>
+              <br />
+              <span>Fehler: {messaging.error.message}</span>
+            </>
+          )}
         </Alert>
       );
     case "default":

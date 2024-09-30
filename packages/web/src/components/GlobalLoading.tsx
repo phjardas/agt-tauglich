@@ -11,7 +11,6 @@ export default function GlobalLoading() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        bgcolor: "primary.dark",
       }}
     >
       <Box sx={{ position: "relative", width: "8rem", height: "8rem", p: 0.5 }}>
