@@ -6,7 +6,6 @@ const vapidKey =
 
 const messaging = getMessaging(firebase);
 
-export async function enableMessaging(): Promise<string> {
-  const token = await getToken(messaging, { vapidKey });
-  return token;
+export async function getMessagingToken(): Promise<string> {
+  return getToken(messaging, { vapidKey });
 }

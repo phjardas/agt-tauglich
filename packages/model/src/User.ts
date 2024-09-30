@@ -39,6 +39,7 @@ export class User implements EventPublisher<UserEventTypeMap> {
 
   constructor(
     readonly id: string,
+    readonly deviceId: string,
     repository: UserRepository
   ) {
     this.#repository = repository;
@@ -55,6 +56,7 @@ export class User implements EventPublisher<UserEventTypeMap> {
     if (this.#subscriptionsCount === 0) {
       this.#unsubscribe = this.#repository.subscribeUser(
         this.id,
+        this.deviceId,
         (data) => {
           this.#loading = false;
           this.#data = data;
@@ -77,6 +79,14 @@ export class User implements EventPublisher<UserEventTypeMap> {
     if (this.#subscriptionsCount === 0) {
       this.#unsubscribe?.();
     }
+  }
+
+  async enableNotifications(token: string) {
+    this.#repository.addSubscription(this.id, this.deviceId, token);
+  }
+
+  async disableNotifications() {
+    await this.#repository.removeSubscription(this.id, this.deviceId);
   }
 
   addEventListener<K extends "user-data-updated">(

@@ -5,4 +5,5 @@ export type UserData = {
   readonly inputs: Inputs;
   readonly calculated: CalculatedValues;
   readonly updatedAt?: Date;
+  readonly subscribed?: boolean;
 };

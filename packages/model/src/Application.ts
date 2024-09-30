@@ -33,7 +33,7 @@ export class Application {
   }
 
   #addUser(user: { id: string }): User {
-    const subUser = new User(user.id, this.#userRepository);
+    const subUser = new User(user.id, this.deviceId, this.#userRepository);
     this.#users.set(user.id, subUser);
     return subUser;
   }

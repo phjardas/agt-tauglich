@@ -22,6 +22,7 @@ import { useUser, useUserData } from "../application";
 import Global from "../components/Global";
 import GlobalLoading from "../components/GlobalLoading";
 import InputDialog from "../components/InputDialog";
+import UserSubscription from "../components/UserSubscription";
 
 export default function Status() {
   const { userId = "" } = useParams<{ userId: string }>();
@@ -95,6 +96,7 @@ function Tauglichkeit({
             {tauglich ? "Du bist tauglich" : "Du bist nicht tauglich"}
           </Typography>
         </Box>
+        <UserSubscription user={user} />
         <List dense disablePadding>
           {tauglichkeiten.map((t) => (
             <TauglichkeitListItem

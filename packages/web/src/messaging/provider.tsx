@@ -1,7 +1,11 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Context } from "./context";
-import { enableMessaging } from "./messaging";
-import type { GrantedMessagingContext, MessagingContext } from "./types";
+import { getMessagingToken } from "./messaging";
+import type {
+  DeniedMessagingContext,
+  GrantedMessagingContext,
+  MessagingContext,
+} from "./types";
 
 export function MessagingProvider({ children }: { children: ReactNode }) {
   const [context, setContext] = useState<MessagingContext>({
@@ -20,14 +24,11 @@ function calculateContext(setContext: (context: MessagingContext) => void) {
     case "default":
       return setContext({
         state: "default",
-        enable: async () => {
-          try {
-            await enableMessaging();
-            getGrantedContext().then(setContext);
-          } catch (error) {
-            console.error(error);
-            calculateContext(setContext);
-          }
+        getToken: async () => {
+          const granted = await getGrantedContext();
+          setContext(granted);
+          if (granted.state === "denied") throw granted.error;
+          return granted.getToken();
         },
       });
 
@@ -35,10 +36,18 @@ function calculateContext(setContext: (context: MessagingContext) => void) {
       return setContext({ state: "denied" });
 
     case "granted":
-      return getGrantedContext().then(setContext);
+      getGrantedContext().then(setContext);
   }
 }
 
-async function getGrantedContext(): Promise<GrantedMessagingContext> {
-  return { state: "granted" };
+async function getGrantedContext(): Promise<
+  GrantedMessagingContext | DeniedMessagingContext
+> {
+  try {
+    const token = await getMessagingToken();
+    return { state: "granted", getToken: async () => token };
+  } catch (error) {
+    console.error(error);
+    return { state: "denied", error: error as Error };
+  }
 }
