@@ -8,6 +8,7 @@
     "clean": "shx rm -rf packages/*/{lib,dist} packages/*/*.tsbuildinfo && npm run --workspaces --if-present clean",
     "build": "npm run compile && npm run --workspaces --if-present build",
     "compile": "npm run clean && tsc -b tsconfig.build.json",
+    "lint": "npm run --workspaces --if-present lint",
     "test": "npm run --workspaces --if-present test",
     "start": "npm run --workspaces --if-present start"
   },

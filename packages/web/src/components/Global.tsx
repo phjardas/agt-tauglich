@@ -1,6 +1,7 @@
 import { Box, Divider, LinearProgress, Link, Paper } from "@mui/material";
 import { Suspense, type ReactNode } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import { version } from "../config";
 import ErrorAlert from "./ErrorAlert";
 import LinkBehavior from "./LinkBehavior";
 
@@ -42,26 +43,24 @@ export default function Global({ children }: { children: ReactNode }) {
 
 function Footer() {
   return (
-    <Box
-      component="footer"
-      sx={{
-        width: "100%",
-        textAlign: "center",
-        display: "flex",
-        flexDirection: "column",
-        gap: 1,
-        pb: 1,
-      }}
-    >
+    <>
       <Divider />
-      <Link
-        component={LinkBehavior}
-        href="/impressum"
-        color="text.secondary"
-        fontSize=".8rem"
+      <Box
+        component="footer"
+        sx={{
+          width: "100%",
+          textAlign: "center",
+          py: 1,
+          color: "text.secondary",
+          fontSize: ".8rem",
+        }}
       >
-        Impressum und Datenschutzerklärung
-      </Link>
-    </Box>
+        <Link component={LinkBehavior} href="/impressum" color="inherit">
+          Impressum und Datenschutzerklärung
+        </Link>
+        {" | "}
+        {version}
+      </Box>
+    </>
   );
 }
