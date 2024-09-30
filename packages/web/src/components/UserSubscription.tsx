@@ -1,4 +1,5 @@
 import { type User } from "@agt-tauglich/model";
+import { NotificationsActive, NotificationsNone } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { Alert, Box, Skeleton } from "@mui/material";
 import { useCallback, useState } from "react";
@@ -29,17 +30,22 @@ function ActiveUserSubscription({ user }: { user: User }) {
   }, [user]);
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-      <Alert severity="success">Benachrichtigungen sind aktiviert.</Alert>
-      <LoadingButton
-        color="inherit"
-        size="small"
-        loading={loading}
-        onClick={onClick}
-      >
-        Benachrichtigungen deaktivieren
-      </LoadingButton>
-    </Box>
+    <Alert
+      severity="success"
+      icon={<NotificationsActive />}
+      action={
+        <LoadingButton
+          color="inherit"
+          size="small"
+          loading={loading}
+          onClick={onClick}
+        >
+          deaktivieren
+        </LoadingButton>
+      }
+    >
+      Benachrichtigungen aktiv.
+    </Alert>
   );
 }
 
@@ -51,7 +57,9 @@ function InactiveUserSubscription({ user }: { user: User }) {
       return <Skeleton />;
     case "denied":
       return (
-        <Alert severity="warning">Benachrichtigungen sind deaktiviert.</Alert>
+        <Alert severity="warning" icon={<NotificationsNone />}>
+          Benachrichtigungen sind nicht aktiv.
+        </Alert>
       );
     case "default":
     case "granted":
@@ -79,8 +87,13 @@ function GrantedUserSubscription({
   }, [messaging, user]);
 
   return (
-    <LoadingButton variant="contained" onClick={onClick} loading={loading}>
-      Benachrichtigungen aktivieren
-    </LoadingButton>
+    <Alert severity="warning" icon={<NotificationsNone />}>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+        <span>Du erhälst keine Benachrichtigungen!</span>
+        <LoadingButton variant="contained" onClick={onClick} loading={loading}>
+          Benachrichtigungen aktivieren
+        </LoadingButton>
+      </Box>
+    </Alert>
   );
 }
