@@ -13,7 +13,7 @@
       "source": "packages/functions",
       "runtime": "nodejs22",
       "codebase": "default",
-      "ignore": ["node_modules", "src", "*.log", "*.local"]
+      "ignore": ["package.json", "node_modules", "src", "*.log", "*.local"]
     }
   ]
 }
