@@ -3,7 +3,7 @@
   "private": true,
   "main": "lib/index.js",
   "scripts": {
-    "build": "esbuild --bundle --platform=node --target=node22 --outdir=lib src/index.ts"
+    "build": "esbuild --bundle --platform=node --target=node22 --outdir=lib src/function.ts"
   },
   "dependencies": {
     "@agt-tauglich/model": "*",

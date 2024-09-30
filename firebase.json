@@ -10,10 +10,9 @@
   },
   "functions": [
     {
-      "source": "packages/functions",
+      "source": "packages/functions/lib",
       "runtime": "nodejs22",
-      "codebase": "default",
-      "ignore": ["package.json", "node_modules", "src", "*.log", "*.local"]
+      "codebase": "default"
     }
   ]
 }
