@@ -1,9 +1,16 @@
-import { Box, Divider, LinearProgress, Link, Paper } from "@mui/material";
+import {
+  Box,
+  Divider,
+  LinearProgress,
+  Link,
+  Paper,
+  Typography,
+} from "@mui/material";
 import { Suspense, type ReactNode } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { version } from "../config";
 import ErrorAlert from "./ErrorAlert";
-import LinkBehavior from "./LinkBehavior";
+import Logo from "./Logo";
 
 export default function Global({ children }: { children: ReactNode }) {
   return (
@@ -49,17 +56,47 @@ function Footer() {
         component="footer"
         sx={{
           width: "100%",
-          textAlign: "center",
+          display: "flex",
+          flexDirection: "column",
           py: 1,
-          color: "text.secondary",
-          fontSize: ".8rem",
+          gap: 1,
         }}
       >
-        <Link component={LinkBehavior} href="/impressum" color="inherit">
-          Impressum und Datenschutzerklärung
-        </Link>
-        {" | "}
-        {version}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="caption">powered by</Typography>
+          <Link href="https://rescuetablet.de/" target="_blank" color="inherit">
+            <Box
+              component={Logo}
+              sx={{ width: "8rem" }}
+              aria-label="rescueTABLET"
+            />
+          </Link>
+        </Box>
+        <Typography variant="caption" textAlign="center">
+          <Link
+            href="https://rescuetablet.de/impressum"
+            target="_blank"
+            color="inherit"
+          >
+            Impressum
+          </Link>
+          {" | "}
+          <Link
+            href="https://rescuetablet.de/datenschutz"
+            target="_blank"
+            color="inherit"
+          >
+            Datenschutz
+          </Link>
+          {" | "}
+          {version}
+        </Typography>
       </Box>
     </>
   );

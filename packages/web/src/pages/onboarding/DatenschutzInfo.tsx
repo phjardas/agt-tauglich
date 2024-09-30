@@ -57,17 +57,10 @@ function DatenschutzInformationen({
           deine Person zurückgeführt werden.
         </DialogContentText>
         <DialogContentText gutterBottom>
-          Weiteres erfährst du in der{" "}
-          <Link href="/impressum" target="_blank">
-            Datenschutzerklärung im Impressum
-          </Link>
-          .
-        </DialogContentText>
-        <DialogContentText gutterBottom>
           Vertrauen ist gut, Kontrolle ist besser! 😉 Der Quellcode dieser App
           ist komplett open-source auf{" "}
           <Link
-            href="https://github.com/phjardas/agt-tauglich/"
+            href="https://github.com/rescuetablet/agt-tauglich/"
             target="_blank"
             rel="noopener noreferrer"
           >
