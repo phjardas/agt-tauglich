@@ -1,0 +1,13 @@
+{
+  "name": "@agt-tauglich/functions",
+  "private": true,
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@agt-tauglich/model": "*",
+    "firebase-admin": "^12.5.0",
+    "firebase-functions": "^6.0.1"
+  }
+}

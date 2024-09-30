@@ -1,0 +1,10 @@
+{
+  "name": "@agt-tauglich/model",
+  "private": true,
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "dependencies": {
+    "date-fns": "^4.1.0",
+    "nanoid": "^5.0.7"
+  }
+}
